@@ -2,13 +2,13 @@
 use bevy::{
     gizmos::{config::GizmoConfigGroup, AppGizmoBuilder},
     prelude::{
-        any_with_component, App, Color, Commands, Component, Entity, Gizmos, IntoSystemConfigs,
+        any_with_component, App, Color, Commands, Component, Entity, Gizmos,
         Plugin, Query, ReflectResource, Res, Resource, Update, Vec3,
     },
     reflect::Reflect,
     time::{Time, Timer},
 };
-
+use bevy::prelude::IntoScheduleConfigs;
 use crate::NavMesh;
 
 pub struct OxidizedNavigationDebugDrawPlugin;

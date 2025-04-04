@@ -61,12 +61,12 @@ name = "parry3d"
 required-features = ["parry3d"]
 
 [dependencies]
-bevy = { version = "0.15", default-features = false, features = ["multi_threaded"] }
+bevy = { version = "0.16.0-rc.3", default-features = false, features = ["multi_threaded"] }
 
 # parry3d doesn't expose the convert-glam feature, so we need to add nalgebra to enable the feature
 nalgebra = { version = "0.33", features = ["convert-glam029"] }
 
-parry3d = { version = "0.17", optional = true }
+parry3d = { version = "0.17.5", optional = true }
 
 bevy_rapier3d = { version = "0.28", optional = true, default-features = false, features = ["dim3"] }
 avian3d = { version = "0.2", optional = true, default-features = false, features = ["3d", "f32", "parry-f32"] }
@@ -74,8 +74,11 @@ avian3d = { version = "0.2", optional = true, default-features = false, features
 smallvec = { version = "1.13", features = ["union"] }
 cfg-if = "1.0"
 
+[patch.crates-io]
+avian3d = { git = "https://github.com/Jondolf/avian.git", rev = "86f3c48" }
+
 [dev-dependencies]
-bevy = { version = "0.15", default-features = false, features = [
+bevy = { version = "0.16.0-rc.3", default-features = false, features = [
     "bevy_asset",
     "bevy_pbr",
     "bevy_render",

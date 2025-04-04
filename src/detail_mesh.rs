@@ -1,7 +1,8 @@
 use bevy::{
     log::warn,
     math::{U16Vec2, U16Vec3, UVec3, Vec3, Vec3Swizzles},
-    utils::hashbrown::HashMap,
+    // utils::HashMap,
+    platform_support::collections::HashMap
 };
 
 #[cfg(feature = "trace")]
@@ -33,6 +34,7 @@ pub fn build_detail_mesh(
     open_tile: &OpenTile,
     poly_mesh: &PolyMesh,
 ) -> Option<PolyMesh> {
+
     let Some(detail_mesh_settings) = &nav_mesh_settings.experimental_detail_mesh_generation else {
         return None;
     };

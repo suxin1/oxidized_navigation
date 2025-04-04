@@ -51,15 +51,18 @@ use bevy::ecs::entity::EntityHashMap;
 use bevy::tasks::futures_lite::future;
 use bevy::tasks::{AsyncComputeTaskPool, Task};
 use bevy::{
-    ecs::system::Resource,
+    // ecs::system::Resource,
+    // ecs::system::Res,
     prelude::*,
-    utils::{HashMap, HashSet},
+    // utils::{HashMap, HashSet},
+    platform_support::collections::{HashMap, HashSet}
 };
 use colliders::OxidizedCollider;
 use contour::build_contours;
 use conversion::{
     convert_geometry_collections, ColliderType, GeometryCollection, GeometryToConvert,
 };
+
 use heightfields::{
     build_heightfield_tile, build_open_heightfield_tile, calculate_distance_field,
     erode_walkable_area, HeightFieldCollection,
@@ -481,7 +484,7 @@ fn update_navmesh_affectors_system<C: OxidizedCollider>(
 
     query
         .iter_mut()
-        .for_each(|(e, collider, global_transform)| {
+        .for_each(|(e, collider, global_transform)| unsafe {
             let transform = global_transform.compute_transform();
             let iso = Isometry::new(
                 transform.translation.into(),
@@ -716,6 +719,8 @@ fn send_tile_rebuild_tasks_system<C: OxidizedCollider>(
                 TypedShape::Polyline(_) => continue,  /* This is a line. */
                 TypedShape::Segment(_) => continue,   /* This is a line segment. */
                 TypedShape::Custom(_) => unimplemented!("Custom shapes are not yet supported for nav-mesh generation, skipping for now.."),
+                TypedShape::ConvexPolygon(_) => unimplemented!("Not yet supported"),
+                TypedShape::RoundConvexPolygon(_) => unimplemented!("Not yet supported")
             };
 
             geometry_collections.push(GeometryCollection {

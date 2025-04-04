@@ -1,7 +1,7 @@
 use bevy::{
     math::Vec3Swizzles,
     prelude::{UVec2, Vec2, Vec3},
-    utils::HashMap,
+    platform_support::collections::HashMap
 };
 use smallvec::SmallVec;
 

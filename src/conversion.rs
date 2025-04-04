@@ -1,6 +1,7 @@
 use bevy::prelude::{Transform, Vec3};
+use bevy_editor_pls::egui::Shape::Vec;
 use parry3d::{
-    math::Real,
+    // math::Real,
     na::Point3,
     shape::{Ball, Capsule, Cone, Cuboid, Cylinder, Triangle},
 };
@@ -24,7 +25,8 @@ pub enum ColliderType {
 
 pub enum GeometryToConvert {
     Collider(ColliderType),
-    ParryTriMesh(Box<[Point3<Real>]>, Box<[[u32; 3]]>),
+    // Seems parry3d::math::Real not importable, use f32 instead
+    ParryTriMesh(Box<[Point3<f32>]>, Box<[[u32; 3]]>),
 }
 
 pub(super) enum Triangles {
@@ -57,11 +59,12 @@ pub(super) fn convert_geometry(geometry_to_convert: GeometryToConvert) -> Triang
                 ColliderType::Cylinder(cylinder) => cylinder.to_trimesh(SUBDIVISIONS),
                 ColliderType::Cone(cone) => cone.to_trimesh(SUBDIVISIONS),
                 ColliderType::Triangle(triangle) => {
-                    return Triangles::Triangle(
-                        triangle
-                            .vertices()
-                            .map(|point| Vec3::new(point.x, point.y, point.z)),
-                    );
+                    let vertices = triangle.vertices();
+                    return Triangles::Triangle([
+                            Vec3::new(vertices[0].x, vertices[0].y, vertices[0].z),
+                            Vec3::new(vertices[1].x, vertices[1].y, vertices[1].z),
+                            Vec3::new(vertices[2].x, vertices[2].y, vertices[2].z),
+                        ]);
                 }
             };
 
